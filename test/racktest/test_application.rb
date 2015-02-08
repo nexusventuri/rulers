@@ -1,11 +1,8 @@
-require_relative "test_helper"
-
-class TestApp < Rulers::Application
-end
+require_relative "../test_helper"
 
 class RulersAppTest < Test::Unit::TestCase
 	include Rack::Test::Methods
-	
+
 	def app
 		TestApp.new
 	end
@@ -13,16 +10,13 @@ class RulersAppTest < Test::Unit::TestCase
 	def test_request
 		get "/"
 
-		assert last_response.ok?
-		body = last_response.body
-
-		assert body["Hello"]
+		assert last_response.not_found?
 	end
 
 	def test_content_type
 		get "/"
-		
-		assert last_response.ok?
+
+		assert last_response.not_found?
 		header = last_response.header
 
 		assert header["Content-Type"] == 'text/html'
