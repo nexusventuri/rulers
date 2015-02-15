@@ -1,5 +1,7 @@
 require "rulers/version"
 require "rulers/array"
+require "rulers/util"
+require "rulers/dependencies"
 
 module Rulers
 	class Application
@@ -10,7 +12,7 @@ module Rulers
 			end
 
 		  controller_name, action = get_controller_and_action(env)
-		  return dispatch(env, Object.const_get(controller_name), action) if class_with_method_exist?(controller_name, action)
+		  return dispatch(env, Object.const_get(controller_name), action)
 
 		  return not_found
 		end
@@ -20,9 +22,7 @@ module Rulers
 		    return [200, {'Content-Type' => 'text/html'}, [File.read("public/index.html")]]
 		  end
 
-		  if class_with_method_exist?("HomeController", :index)
-		    return dispatch(env, HomeController, :index)
-		  end
+		  return dispatch(env, HomeController, :index)
 
 		  return not_found
 		end
